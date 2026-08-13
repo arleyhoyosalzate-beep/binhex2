@@ -1,0 +1,35 @@
+<main>
+  <h1>Conversor de sistemas numéricos</h1>
+
+  <div class="conversion-row">
+    <app-number-input
+      label="Binario"
+      inputId="binary-to-hex-input"
+      [value]="binaryToHexValue()"
+      (valueChange)="updateBinaryToHexValue($event)"
+    />
+
+    <span class="connector" aria-hidden="true">→</span>
+
+    <app-conversion-result
+      label="Hexadecimal"
+      [value]="hexadecimalResult()"
+    />
+  </div>
+
+  <div class="conversion-row">
+    <app-number-input
+      label="Binario"
+      inputId="binary-to-decimal-input"
+      [value]="binaryToDecimalValue()"
+      (valueChange)="updateBinaryToDecimalValue($event)"
+    />
+
+    <span class="connector" aria-hidden="true">→</span>
+
+    <app-conversion-result
+      label="Decimal"
+      [value]="decimalResult()"
+    />
+  </div>
+</main>

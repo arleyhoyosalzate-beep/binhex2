@@ -1,0 +1,12 @@
+<div class="number-box">
+  <label [for]="inputId()">
+    {{ label() }}
+  </label>
+
+  <input
+    [id]="inputId()"
+    type="text"
+    [value]="value()"
+    (input)="handleInput($event)"
+  />
+</div>

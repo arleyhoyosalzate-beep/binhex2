@@ -1,0 +1,21 @@
+main {
+  width: min(90%, 700px);
+  margin: 40px auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+.conversion-row {
+  display: grid;
+  grid-template-columns: 1fr 60px 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.connector {
+  text-align: center;
+  font-size: 2rem;
+}
