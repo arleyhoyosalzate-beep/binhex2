@@ -1,35 +1,53 @@
 <main>
   <h1>Conversor de sistemas numéricos</h1>
 
-  <div class="conversion-row">
-    <app-number-input
-      label="Binario"
-      inputId="binary-to-hex-input"
-      [value]="binaryToHexValue()"
-      (valueChange)="updateBinaryToHexValue($event)"
-    />
+  <ng-template
+    #conversionRow
+    let-inputLabel="inputLabel"
+    let-inputId="inputId"
+    let-inputValue="inputValue"
+    let-resultLabel="resultLabel"
+    let-resultValue="resultValue"
+    let-onValueChange="valueChange"
+  >
+    <div class="conversion-row">
+      <app-number-input
+        [label]="inputLabel"
+        [inputId]="inputId"
+        [value]="inputValue"
+        (valueChange)="onValueChange($event)"
+      />
 
-    <span class="connector" aria-hidden="true">→</span>
+      <span class="connector" aria-hidden="true">→</span>
 
-    <app-conversion-result
-      label="Hexadecimal"
-      [value]="hexadecimalResult()"
-    />
-  </div>
+      <app-conversion-result
+        [label]="resultLabel"
+        [value]="resultValue"
+      />
+    </div>
+  </ng-template>
 
-  <div class="conversion-row">
-    <app-number-input
-      label="Binario"
-      inputId="binary-to-decimal-input"
-      [value]="binaryToDecimalValue()"
-      (valueChange)="updateBinaryToDecimalValue($event)"
-    />
+  <ng-container
+    [ngTemplateOutlet]="conversionRow"
+    [ngTemplateOutletContext]="{
+      inputLabel: 'Binario',
+      inputId: 'binary-to-hex-input',
+      inputValue: binaryToHexValue(),
+      resultLabel: 'Hexadecimal',
+      resultValue: hexadecimalResult(),
+      valueChange: updateBinaryToHexValue,
+    }"
+  />
 
-    <span class="connector" aria-hidden="true">→</span>
-
-    <app-conversion-result
-      label="Decimal"
-      [value]="decimalResult()"
-    />
-  </div>
+  <ng-container
+    [ngTemplateOutlet]="conversionRow"
+    [ngTemplateOutletContext]="{
+      inputLabel: 'Binario',
+      inputId: 'binary-to-decimal-input',
+      inputValue: binaryToDecimalValue(),
+      resultLabel: 'Decimal',
+      resultValue: decimalResult(),
+      valueChange: updateBinaryToDecimalValue,
+    }"
+  />
 </main>

@@ -1,10 +1,11 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 import { ConversionResult } from '../../components/conversion-result/conversion-result';
 import { NumberInput } from '../../components/number-input/number-input';
 
 @Component({
   selector: 'app-converter-page',
-  imports: [NumberInput, ConversionResult],
+  imports: [NgTemplateOutlet, NumberInput, ConversionResult],
   templateUrl: './converter-page.html',
   styleUrl: './converter-page.scss',
 })
@@ -20,13 +21,13 @@ export class ConverterPage {
     this.convertBinaryToDecimal(this.binaryToDecimalValue()),
   );
 
-  protected updateBinaryToHexValue(value: string): void {
+  protected readonly updateBinaryToHexValue = (value: string): void => {
     this.binaryToHexValue.set(value);
-  }
+  };
 
-  protected updateBinaryToDecimalValue(value: string): void {
+  protected readonly updateBinaryToDecimalValue = (value: string): void => {
     this.binaryToDecimalValue.set(value);
-  }
+  };
 
   private convertBinaryToHexadecimal(value: string): string {
     if (!this.isValidBinary(value)) {
