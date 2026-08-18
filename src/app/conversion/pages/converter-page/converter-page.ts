@@ -12,6 +12,9 @@ import { NumberInput } from '../../components/number-input/number-input';
 export class ConverterPage {
   protected readonly binaryToHexValue = signal('10101110');
   protected readonly binaryToDecimalValue = signal('10101110');
+  protected readonly decimalToBinaryValue = signal('174');
+  protected readonly decimalToHexValue = signal('174');
+  protected readonly hexToBinaryValue = signal('AE');
 
   protected readonly hexadecimalResult = computed(() =>
     this.convertBinaryToHexadecimal(this.binaryToHexValue()),
@@ -21,6 +24,15 @@ export class ConverterPage {
     this.convertBinaryToDecimal(this.binaryToDecimalValue()),
   );
 
+  protected readonly binaryResult = computed(() =>
+    this.convertDecimalToBinary(this.decimalToBinaryValue()),
+  );
+  protected readonly decimalToHexResult = computed(() =>
+    this.convertDecimalToHexadecimal(this.decimalToHexValue()),
+  );
+  protected readonly hexToBinaryResult = computed(() =>
+    this.convertHexadecimalToBinary(this.hexToBinaryValue()),
+  );
   protected readonly updateBinaryToHexValue = (value: string): void => {
     this.binaryToHexValue.set(value);
   };
@@ -29,6 +41,15 @@ export class ConverterPage {
     this.binaryToDecimalValue.set(value);
   };
 
+  protected readonly updateDecimalToBinaryValue = (value: string): void => {
+    this.decimalToBinaryValue.set(value);
+  };
+  protected readonly updateDecimalToHexValue = (value: string): void => {
+    this.decimalToHexValue.set(value);
+  };
+  protected readonly updateHexToBinaryValue = (value: string): void => {
+    this.hexToBinaryValue.set(value);
+  };
   private convertBinaryToHexadecimal(value: string): string {
     if (!this.isValidBinary(value)) {
       return 'Valor inválido';
@@ -46,8 +67,42 @@ export class ConverterPage {
 
     return Number.parseInt(value, 2).toString();
   }
+  private convertDecimalToHexadecimal(value: string): string {
+    if (!this.isValidDecimal(value)) {
+      return 'Valor inválido';
+    }
+
+    const decimalValue = Number.parseInt(value, 10);
+
+    return decimalValue.toString(16).toUpperCase();
+  }
+  private convertHexadecimalToBinary(value: string): string {
+    if (!this.isValidHexadecimal(value)) {
+      return 'Valor inválido';
+    }
+
+    const decimalValue = Number.parseInt(value, 16);
+
+    return decimalValue.toString(2);
+  }
+  private convertDecimalToBinary(value: string): string {
+    if (!this.isValidDecimal(value)) {
+      return 'Valor inválido';
+    }
+
+    const decimalValue = Number.parseInt(value, 10);
+
+    return decimalValue.toString(2);
+  }
 
   private isValidBinary(value: string): boolean {
     return /^[01]+$/.test(value);
+  }
+
+  private isValidDecimal(value: string): boolean {
+    return /^\d+$/.test(value);
+  }
+  private isValidHexadecimal(value: string): boolean {
+    return /^[0-9a-fA-F]+$/.test(value);
   }
 }

@@ -20,10 +20,7 @@
 
       <span class="connector" aria-hidden="true">→</span>
 
-      <app-conversion-result
-        [label]="resultLabel"
-        [value]="resultValue"
-      />
+      <app-conversion-result [label]="resultLabel" [value]="resultValue" />
     </div>
   </ng-template>
 
@@ -48,6 +45,40 @@
       resultLabel: 'Decimal',
       resultValue: decimalResult(),
       valueChange: updateBinaryToDecimalValue,
+    }"
+  />
+  <ng-container
+    [ngTemplateOutlet]="conversionRow"
+    [ngTemplateOutletContext]="{
+      inputLabel: 'Decimal',
+      inputId: 'decimal-to-binary-input',
+      inputValue: decimalToBinaryValue(),
+      resultLabel: 'Binario',
+      resultValue: binaryResult(),
+      valueChange: updateDecimalToBinaryValue,
+    }"
+  />
+
+  <ng-container
+    [ngTemplateOutlet]="conversionRow"
+    [ngTemplateOutletContext]="{
+      inputLabel: 'Decimal',
+      inputId: 'decimal-to-hex-input',
+      inputValue: decimalToHexValue(),
+      resultLabel: 'Hexadecimal',
+      resultValue: decimalToHexResult(),
+      valueChange: updateDecimalToHexValue,
+    }"
+  />
+  <ng-container
+    [ngTemplateOutlet]="conversionRow"
+    [ngTemplateOutletContext]="{
+      inputLabel: 'Hexadecimal',
+      inputId: 'hex-to-binary-input',
+      inputValue: hexToBinaryValue(),
+      resultLabel: 'Binario',
+      resultValue: hexToBinaryResult(),
+      valueChange: updateHexToBinaryValue,
     }"
   />
 </main>
