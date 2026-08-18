@@ -1,88 +1,117 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
+import { routes } from '../../../app.routes';
+import { ConversionType } from '../../models/conversion-type';
 import { ConverterPage } from './converter-page';
 
 describe('ConverterPage', () => {
-  let component: ConverterPage;
-  let fixture: ComponentFixture<ConverterPage>;
+  let harness: RouterTestingHarness;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConverterPage],
+      providers: [provideRouter(routes)],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ConverterPage);
-    component = fixture.componentInstance;
-
-    await fixture.whenStable();
+    harness = await RouterTestingHarness.create();
   });
 
-  function getRows(): NodeListOf<HTMLElement> {
-    return fixture.nativeElement.querySelectorAll('.conversion-row');
+  async function renderConversion(conversion: ConversionType): Promise<HTMLElement> {
+    await harness.navigateByUrl(`/convert/${conversion}`, ConverterPage);
+
+    const element = harness.routeNativeElement;
+
+    if (!(element instanceof HTMLElement)) {
+      throw new Error('Converter page was not rendered');
+    }
+
+    return element;
   }
 
-  function getResult(rowIndex: number): string {
-    const output = getRows()[rowIndex].querySelector('output');
+  function getResult(element: HTMLElement): string {
+    const output = element.querySelector('output');
 
     return output?.textContent?.trim() ?? '';
   }
 
-  async function enterValue(
-    rowIndex: number,
-    value: string,
-  ): Promise<void> {
-    const input = getRows()[rowIndex].querySelector('input');
+  function enterValue(element: HTMLElement, value: string): void {
+    const input = element.querySelector('input');
 
     if (!(input instanceof HTMLInputElement)) {
-      throw new Error(`Input was not found in row ${rowIndex}`);
+      throw new Error('Conversion input was not rendered');
     }
 
     input.value = value;
     input.dispatchEvent(new Event('input'));
 
-    await fixture.whenStable();
+    harness.detectChanges();
   }
 
-  it('should create', () => {
+  it('should create the routed converter page', async () => {
+    const component = await harness.navigateByUrl('/convert/binary-to-hex', ConverterPage);
+
     expect(component).toBeTruthy();
   });
 
-  it('should render five conversion rows', () => {
-    expect(getRows().length).toBe(5);
+  it('should render only one conversion row', async () => {
+    const element = await renderConversion('binary-to-hex');
+    const rows = element.querySelectorAll('.conversion-row');
+
+    expect(rows.length).toBe(1);
+  });
+
+  it('should select the conversion represented by the URL', async () => {
+    const element = await renderConversion('decimal-to-binary');
+    const select = element.querySelector('select');
+
+    expect(select?.value).toBe('decimal-to-binary');
   });
 
   it('should convert binary to hexadecimal', async () => {
-    await enterValue(0, '11111111');
+    const element = await renderConversion('binary-to-hex');
 
-    expect(getResult(0)).toBe('FF');
+    enterValue(element, '11111111');
+
+    expect(getResult(element)).toBe('FF');
   });
 
   it('should convert binary to decimal', async () => {
-    await enterValue(1, '1111');
+    const element = await renderConversion('binary-to-decimal');
 
-    expect(getResult(1)).toBe('15');
+    enterValue(element, '1111');
+
+    expect(getResult(element)).toBe('15');
   });
 
   it('should convert decimal to binary', async () => {
-    await enterValue(2, '10');
+    const element = await renderConversion('decimal-to-binary');
 
-    expect(getResult(2)).toBe('1010');
+    enterValue(element, '10');
+
+    expect(getResult(element)).toBe('1010');
   });
 
   it('should convert decimal to hexadecimal', async () => {
-    await enterValue(3, '255');
+    const element = await renderConversion('decimal-to-hex');
 
-    expect(getResult(3)).toBe('FF');
+    enterValue(element, '255');
+
+    expect(getResult(element)).toBe('FF');
   });
 
   it('should convert hexadecimal to binary', async () => {
-    await enterValue(4, 'AE');
+    const element = await renderConversion('hex-to-binary');
 
-    expect(getResult(4)).toBe('10101110');
+    enterValue(element, 'AE');
+
+    expect(getResult(element)).toBe('10101110');
   });
 
-  it('should display an error for an invalid hexadecimal value', async () => {
-    await enterValue(4, 'G1');
+  it('should display an error for invalid hexadecimal', async () => {
+    const element = await renderConversion('hex-to-binary');
 
-    expect(getResult(4)).toBe('Valor inválido');
+    enterValue(element, 'G1');
+
+    expect(getResult(element)).toBe('Valor inválido');
   });
 });
