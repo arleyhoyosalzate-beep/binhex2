@@ -1,11 +1,19 @@
-<div class="conversion-selector">
-  <label for="conversion-type">Conversión</label>
+<nav class="conversion-selector" aria-label="Seleccionar tipo de conversión">
+  <p class="conversion-selector__title">Selecciona una conversión</p>
 
-  <select id="conversion-type" (change)="handleSelection($event)">
+  <div class="conversion-selector__buttons">
     @for (option of options; track option.value) {
-      <option [value]="option.value" [selected]="option.value === selectedConversion()">
-        {{ option.label }}
-      </option>
+      <button
+        type="button"
+        class="conversion-option"
+        [class.conversion-option--active]="option.value === selectedConversion()"
+        [attr.aria-label]="option.label"
+        [attr.aria-pressed]="option.value === selectedConversion()"
+        [attr.data-conversion]="option.value"
+        (click)="selectConversion(option.value)"
+      >
+        {{ option.abbreviation }}
+      </button>
     }
-  </select>
-</div>
+  </div>
+</nav>

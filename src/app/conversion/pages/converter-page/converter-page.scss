@@ -1,9 +1,15 @@
 main {
-  width: min(90%, 700px);
+  width: min(90%, 800px);
   margin: 40px auto;
+  padding: 24px;
+  border-radius: 12px;
+  background-color: var(--color-surface);
+  box-shadow: 0 8px 24px rgb(30 58 138 / 12%);
 }
 
 h1 {
+  margin-top: 0;
+  color: var(--color-primary);
   text-align: center;
 }
 
@@ -16,6 +22,23 @@ h1 {
 }
 
 .connector {
+  color: var(--color-accent-dark);
   text-align: center;
   font-size: 2rem;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  main {
+    width: min(94%, 800px);
+    padding: 16px;
+  }
+
+  .conversion-row {
+    grid-template-columns: 1fr;
+  }
+
+  .connector {
+    transform: rotate(90deg);
+  }
 }

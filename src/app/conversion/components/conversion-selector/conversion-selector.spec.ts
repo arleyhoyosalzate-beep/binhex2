@@ -14,10 +14,7 @@ describe('ConversionSelector', () => {
     fixture = TestBed.createComponent(ConversionSelector);
     component = fixture.componentInstance;
 
-    fixture.componentRef.setInput(
-      'selectedConversion',
-      'binary-to-hex',
-    );
+    fixture.componentRef.setInput('selectedConversion', 'binary-to-hex');
 
     await fixture.whenStable();
   });
@@ -26,13 +23,13 @@ describe('ConversionSelector', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display five conversion options', () => {
+  it('should display five conversion buttons', () => {
     const element = fixture.nativeElement as HTMLElement;
-    const select = element.querySelector('select');
-    const options = element.querySelectorAll('option');
+    const buttons = element.querySelectorAll('.conversion-option');
+    const activeButton = element.querySelector('[aria-pressed="true"]');
 
-    expect(options.length).toBe(5);
-    expect(select?.value).toBe('binary-to-hex');
+    expect(buttons.length).toBe(5);
+    expect(activeButton?.getAttribute('data-conversion')).toBe('binary-to-hex');
   });
 
   it('should emit the selected conversion', () => {
@@ -43,14 +40,13 @@ describe('ConversionSelector', () => {
     });
 
     const element = fixture.nativeElement as HTMLElement;
-    const select = element.querySelector('select');
+    const button = element.querySelector('[data-conversion="decimal-to-binary"]');
 
-    if (!(select instanceof HTMLSelectElement)) {
-      throw new Error('Conversion select was not rendered');
+    if (!(button instanceof HTMLButtonElement)) {
+      throw new Error('Conversion button was not rendered');
     }
 
-    select.value = 'decimal-to-binary';
-    select.dispatchEvent(new Event('change'));
+    button.click();
 
     expect(emittedValues).toEqual(['decimal-to-binary']);
   });

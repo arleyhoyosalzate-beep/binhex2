@@ -4,6 +4,7 @@ import { ConversionType } from '../../models/conversion-type';
 interface ConversionOption {
   readonly value: ConversionType;
   readonly label: string;
+  readonly abbreviation: string;
 }
 
 @Component({
@@ -20,30 +21,32 @@ export class ConversionSelector {
   protected readonly options: readonly ConversionOption[] = [
     {
       value: 'binary-to-hex',
-      label: 'Binario → hexadecimal',
+      label: 'Binario a hexadecimal',
+      abbreviation: 'BIN → HEX',
     },
     {
       value: 'binary-to-decimal',
-      label: 'Binario → decimal',
+      label: 'Binario a decimal',
+      abbreviation: 'BIN → DEC',
     },
     {
       value: 'decimal-to-binary',
-      label: 'Decimal → binario',
+      label: 'Decimal a binario',
+      abbreviation: 'DEC → BIN',
     },
     {
       value: 'decimal-to-hex',
-      label: 'Decimal → hexadecimal',
+      label: 'Decimal a hexadecimal',
+      abbreviation: 'DEC → HEX',
     },
     {
       value: 'hex-to-binary',
-      label: 'Hexadecimal → binario',
+      label: 'Hexadecimal a binario',
+      abbreviation: 'HEX → BIN',
     },
   ];
 
-  protected handleSelection(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    const selectedValue = selectElement.value as ConversionType;
-
-    this.selectedConversionChange.emit(selectedValue);
+  protected selectConversion(conversion: ConversionType): void {
+    this.selectedConversionChange.emit(conversion);
   }
 }

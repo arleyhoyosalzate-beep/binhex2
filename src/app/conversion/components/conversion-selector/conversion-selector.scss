@@ -1,16 +1,59 @@
 .conversion-selector {
-  display: grid;
-  gap: 8px;
-  margin: 24px 0;
+  margin: 24px 0 32px;
+  padding: 18px;
+  border-radius: 10px;
+  background-color: var(--color-primary);
+  color: white;
 }
 
-.conversion-selector label {
+.conversion-selector__title {
+  margin: 0 0 14px;
+  text-align: center;
+  font-size: 0.9rem;
   font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.conversion-selector select {
-  padding: 10px;
-  border: 2px solid black;
+.conversion-selector__buttons {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(110px, 1fr));
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 6px;
+}
+
+.conversion-option {
+  min-height: 52px;
+  padding: 8px;
+  border: 2px solid transparent;
+  border-radius: 7px;
   background-color: white;
-  font: inherit;
+  color: var(--color-primary);
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.conversion-option:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-primary-light);
+}
+
+.conversion-option--active {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.conversion-option--active:hover {
+  background-color: var(--color-accent);
+}
+
+.conversion-option:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 2px;
 }

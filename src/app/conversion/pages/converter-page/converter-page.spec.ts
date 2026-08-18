@@ -62,9 +62,9 @@ describe('ConverterPage', () => {
 
   it('should select the conversion represented by the URL', async () => {
     const element = await renderConversion('decimal-to-binary');
-    const select = element.querySelector('select');
+    const activeButton = element.querySelector('[aria-pressed="true"]');
 
-    expect(select?.value).toBe('decimal-to-binary');
+    expect(activeButton?.getAttribute('data-conversion')).toBe('decimal-to-binary');
   });
 
   it('should convert binary to hexadecimal', async () => {
